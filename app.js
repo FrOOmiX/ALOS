@@ -10,13 +10,12 @@ var senecaWebConfig = {
 }
 
 var app = Express()
-    .use( require('body-parser').json() )
-    .use( context )
+    .use(require('body-parser').json())
+    .use(context)
     .listen(3000)
 
-var seneca = require( 'seneca' )()
-    .use( SenecaWeb, senecaWebConfig )
-    .use( 'entity' )
-    .use( 'api' )
-    .client( { type:'tcp', pin:'role:math' } )
-    .client( { port:9002, pin:'role:shop' } )
+var seneca = require('seneca')()
+    .use(SenecaWeb, senecaWebConfig)
+    .use('entity')
+    .use('api')
+    .client({ type: 9002, pin:'role:dt' })
