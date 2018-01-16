@@ -52,6 +52,4 @@ module.exports = function dt( options ){
         })
 
     })
-
-
 };
