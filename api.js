@@ -65,7 +65,7 @@ module.exports = function api(options) {
         this.act('role:web', {
             routes: [
                 {
-                    prefix: '/api/dt/stat',
+                    prefix: '/api/dt/stats',
                     pin: 'role:api,cmd:*',
                     map: {
     
