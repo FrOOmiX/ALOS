@@ -36,13 +36,15 @@ module.exports = function api(options) {
     });
 
     this.add('role:api,cmd:update', function(msg, respond) {
+        
+        data = { id: msg.args.params.id };
+
+        if (msg.args.query.state) data.state = msg.args.query.state;
+        if (msg.args.query.work) data.work = msg.args.query.work;
+
         this.act('role:dt', {
             cmd: "update",
-            data: {
-                id: msg.args.params.id,
-                state: msg.args.query.state,
-                work: msg.args.query.work
-            }
+            data: data
         }, respond)
     });
 
