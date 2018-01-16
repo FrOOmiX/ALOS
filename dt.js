@@ -27,7 +27,7 @@ module.exports = function dt( options ){
     });
 
     this.add('role:dt, cmd:remove', function remove(msg, respond) {
-        this.make('dt').load$(msg.data.id, function (err, dt) {
+        this.make('dt').load$(msg.id, function (err, dt) {
             if(dt.state == "En cours"){
                 this.make('dt').remove$(dt.id, function (err, dt) {
                     respond(null, {succes: true, msg: "", data:[dt]})
@@ -40,14 +40,14 @@ module.exports = function dt( options ){
     });
 
     this.add('role:dt, cmd:update', function update(msg, respond) {
-        this.make('dt').load(msg.id, function (err, dt){
+        this.make('dt').load$(msg.data.id, function (err, dt){
             if(dt.state == "En cours"){
                 this.make('dt').data$(msg.data).save$(function (err, dt) {
                     respond(null, {succes: true, msg: "", data:[dt]})
                 })
             }
             else{
-                respond(null, {succes: false, msg: "Suppresion impossible la demande de travaux est terminée.", data:[dt]})
+                respond(null, {succes: false, msg: "Modification impossible la demande de travaux est terminée.", data:[dt]})
             }
         })
 
