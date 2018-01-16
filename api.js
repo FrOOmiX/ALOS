@@ -22,11 +22,30 @@ module.exports = function api(options) {
             data: {
                 applicant: msg.args.query.applicant,
                 work: msg.args.query.work,
-                date: msg.args.query.date
+                date: msg.args.query.date,
+                state: "En cours"
             }
         }, respond)
     });
     
+    this.add('role:api,cmd:remove', function(msg, respond) {
+        this.act('role:dt', {
+            cmd: "remove",
+            id: msg.args.params.id
+        }, respond)
+    });
+
+    this.add('role:api,cmd:update', function(msg, respond) {
+        this.act('role:dt', {
+            cmd: "update",
+            id: msg.args.params.id,
+            data: {
+                state: msg.args.query.state,
+                work: msg.args.query.work
+            }
+        }, respond)
+    });
+
     this.add('init:api', function(msg, respond) {
         this.act('role:web', {
             routes:
@@ -38,6 +57,8 @@ module.exports = function api(options) {
                     list: { GET: true, name: '' },
                     load: { GET: true, name: '', suffix: '/:id' },
                     create: { POST: true, name: '' },
+                    remove: { DELETE: true, name: '', suffix: '/:id' },
+                    update: { PUT: true, name: '', suffix: '/:id' },
                 }
             }
         }, respond)
