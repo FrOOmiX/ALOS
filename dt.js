@@ -34,7 +34,7 @@ module.exports = function dt( options ){
                 })
             }
             else{
-                respond(null, {succes: false, msg: "Suppresion impossible la demande de travaux est terminée.", data:[dt]})
+                respond(null, {succes: false, msg: "Suppresion impossible, la demande de travaux est terminée.", data:[dt]})
             }
         })
     });
@@ -47,7 +47,7 @@ module.exports = function dt( options ){
                 })
             }
             else{
-                respond(null, {succes: false, msg: "Modification impossible la demande de travaux est terminée.", data:[dt]})
+                respond(null, {succes: false, msg: "Modification impossible, la demande de travaux est terminée.", data:[dt]})
             }
         })
 
