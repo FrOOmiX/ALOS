@@ -19,9 +19,11 @@ module.exports = function api(options) {
     this.add('role:api,cmd:create', function(msg, respond) {
         this.act('role:dt', {
             cmd: "create",
-            applicant: msg.args.query.applicant,
-            work: msg.args.query.work,
-            date: msg.args.query.date
+            data: {
+                applicant: msg.args.query.applicant,
+                work: msg.args.query.work,
+                date: msg.args.query.date
+            }
         }, respond)
     });
     
