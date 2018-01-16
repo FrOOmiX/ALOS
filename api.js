@@ -17,12 +17,22 @@ module.exports = function api(options) {
 
     // localhost:3000/api/dt/?applicant=paul&work=changer_ampoule&date=16-01-2018
     this.add('role:api,cmd:create', function(msg, respond) {
+
+        var applicant, work, date = null;
+
+        if(msg.args.query.applicant) { applicant = msg.args.query.applicant }
+        if(msg.args.body.applicant) { applicant = msg.args.body.applicant }
+        if(msg.args.query.work) { work = msg.args.query.work }
+        if(msg.args.body.work) { work = msg.args.body.work }
+        if(msg.args.query.date) { date = msg.args.query.date }
+        if(msg.args.body.date) { date = msg.args.body.date }
+
         this.act('role:dt', {
             cmd: "create",
             data: {
-                applicant: msg.args.query.applicant,
-                work: msg.args.query.work,
-                date: msg.args.query.date,
+                applicant: applicant,
+                work: work,
+                date: date,
                 state: "En cours"
             }
         }, respond)
