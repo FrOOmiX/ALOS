@@ -38,8 +38,8 @@ module.exports = function api(options) {
     this.add('role:api,cmd:update', function(msg, respond) {
         this.act('role:dt', {
             cmd: "update",
-            id: msg.args.params.id,
             data: {
+                id: msg.args.params.id,
                 state: msg.args.query.state,
                 work: msg.args.query.work
             }
