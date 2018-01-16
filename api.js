@@ -17,22 +17,12 @@ module.exports = function api(options) {
 
     // localhost:3000/api/dt/?applicant=paul&work=changer_ampoule&date=16-01-2018
     this.add('role:api,cmd:create', function(msg, respond) {
-
-        var applicant, work, date = null;
-
-        if(msg.args.query.applicant) { applicant = msg.args.query.applicant }
-        if(msg.args.body.applicant) { applicant = msg.args.body.applicant }
-        if(msg.args.query.work) { work = msg.args.query.work }
-        if(msg.args.body.work) { work = msg.args.body.work }
-        if(msg.args.query.date) { date = msg.args.query.date }
-        if(msg.args.body.date) { date = msg.args.body.date }
-
         this.act('role:dt', {
             cmd: "create",
             data: {
-                applicant: applicant,
-                work: work,
-                date: date,
+                applicant:  msg.args.body.applicant,
+                work:  msg.args.body.work,
+                date:  msg.args.body.date,
                 state: "En cours"
             }
         }, respond)
@@ -47,10 +37,10 @@ module.exports = function api(options) {
 
     this.add('role:api,cmd:update', function(msg, respond) {
         
-        data = { id: msg.args.params.id };
+        var data = { id: msg.args.params.id };
 
-        if (msg.args.query.state) data.state = msg.args.query.state;
-        if (msg.args.query.work) data.work = msg.args.query.work;
+        if (msg.args.body.state) data.state = msg.args.body.state;
+        if (msg.args.body.work) data.work = msg.args.body.work;
 
         this.act('role:dt', {
             cmd: "update",
