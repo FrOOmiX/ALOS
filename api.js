@@ -66,13 +66,13 @@ module.exports = function api(options) {
             info: "statsAll"
         }, respond)
     });
-
-    this.add('role:api,info:statsUser', function(msg, respond) {
+*/
+    this.add('role:api,path:stats', function(msg, respond) {
         this.act('role:stats', {
-            info: "statsUser",
+            cmd: msg.request$.method,
             user: msg.args.params.user
         }, respond)
-    });*/
+    });
 
     // traite les messages concernant les operations CRUD pour les DT
     this.add('role:api,path:dt', function (msg, respond) {
@@ -92,28 +92,6 @@ module.exports = function api(options) {
     this.add('init:api', function(msg, respond) {
         this.act('role:web', {
             routes: [
-                /*{
-                    prefix: '/api/dt/stats',
-                    pin: 'role:api,info:*',
-                    map: {
-    
-                        statsAll: { GET: true, name: '' },
-                        statsUser: { GET: true, name: '', suffix: '/:user' }
-                    }
-                },
-                {
-                    prefix: '/api/dt',
-                    pin: 'role:api,cmd:*',
-                    map: {
-    
-                        list: { GET: true, name: '' },
-                        load: { GET: true, name: '', suffix: '/:id' },
-                        create: { POST: true, name: '' },
-                        remove: { DELETE: true, name: '', suffix: '/:id?' },
-                        update: { PUT: true, name: '', suffix: '/:id?' }
-                    }
-                }*/
-
                 {
                     prefix: '/api/dt',
                     pin: 'role:api,path:stats',
