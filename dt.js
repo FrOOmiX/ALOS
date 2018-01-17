@@ -21,7 +21,7 @@ module.exports = function dt(options){
 
     this.add('role:dt, cmd:create', function create(msg, respond) {
         this.make('dt').data$(msg.data).save$(function (err, dt) {
-            respond(null, {success: true, msg: "", data:[{id: dt.id}]})
+            respond(null, {success: true, msg: "", data:{id: dt.id}})
         })
     });
 
