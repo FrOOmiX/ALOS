@@ -6,22 +6,22 @@ module.exports = function dt(options){
             list.forEach(function (dt) {
                 data.push(dt)
             });
-            respond(null, {succes: true, msg: "", data:data})
+            respond(null, {success: true, msg: "", data:data})
         })
     });
 
     this.add('role:dt, cmd:load', function load(msg, respond) {
         this.make('dt').load$(msg.id, function (err, dt) {
             if(dt != null)
-                respond(null, {succes: true, msg: "", data:[dt]})
+                respond(null, {success: true, msg: "", data:[dt]})
             else
-                respond(null, {succes: false, msg: "Cette demande de travaux n'existe pas", data:[]})
+                respond(null, {success: false, msg: "Cette demande de travaux n'existe pas", data:[]})
         })
     });
 
     this.add('role:dt, cmd:create', function create(msg, respond) {
         this.make('dt').data$(msg.data).save$(function (err, dt) {
-            respond(null, {succes: true, msg: "", data:[{id: dt.id}]})
+            respond(null, {success: true, msg: "", data:[{id: dt.id}]})
         })
     });
 
@@ -29,25 +29,31 @@ module.exports = function dt(options){
         this.make('dt').load$(msg.id, function (err, dt) {
             if(dt.state == "created"){
                 this.make('dt').remove$(dt.id, function (err, dt) {
-                    respond(null, {succes: true, msg: "", data:[dt]})
+                    respond(null, {success: true, msg: "", data:[dt]})
                 })
             }
             else{
-                respond(null, {succes: false, msg: "Suppresion impossible, la demande de travaux est terminée.", data:[dt]})
+                respond(null, {success: false, msg: "Suppresion impossible, la demande de travaux est terminée.", data:[dt]})
             }
         })
     });
 
     this.add('role:dt, cmd:update', function update(msg, respond) {
-        this.make('dt').load$(msg.data.id, function (err, dt){
-            if(dt.state == "created"){
-                this.make('dt').data$(msg.data).save$(function (err, dt) {
-                    respond(null, {succes: true, msg: "", data:[dt]})
-                })
-            }
-            else{
-                respond(null, {succes: false, msg: "Modification impossible, la demande de travaux est terminée.", data:[dt]})
-            }
-        })
+        if(msg.id == undefined){
+            respond(null, {success: false, msg: "wr id not provided", data:[]})
+        }
+        else{
+            this.make('dt').load$(msg.data.id, function (err, dt){
+                if(dt.state == "created"){
+                    this.make('dt').data$(msg.data).save$(function (err, dt) {
+                        respond(null, {success: true, msg: "", data:[dt]})
+                    })
+                }
+                else{
+                    respond(null, {success: false, msg: "Modification impossible, la demande de travaux est terminée.", data:[dt]})
+                }
+            })
+        }
+
     })
 };

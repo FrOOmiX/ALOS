@@ -124,14 +124,14 @@ describe('app work request', () => {
     })
   })
 
-  /*it('attempt to update a wr w/o id', (done) => {
+  it('attempt to update a wr w/o id', (done) => {
     client.put('/api/dt', {}, (err, req, res, result) => {
       if (err) return done(err);
       expect(result.success).to.be.false();
       expect(result.msg).to.be.equals('wr id not provided');
       done()
     })
-  })*/
+  })
 
   it('attempt to delete a dummy wr', (done) => {
     client.del('/api/dt/_______', (err, req, res, result) => {
