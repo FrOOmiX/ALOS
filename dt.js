@@ -55,9 +55,12 @@ module.exports = function dt(options){
                     respond(null, {success: false, msg: "wr id not found", data: {}})
                 }else {
                     if (dt.state == "created") {
-                       var obj = Object.assign(dt, msg.data);
 
-                        this.make('dt').data$(obj).save$(function (err, dt) {
+                        if (msg.data.applicant == null) msg.data.applicant = dt.applicant;
+                        if (msg.data.work == null) msg.data.work = dt.work;
+                        if (msg.data.staet == null) msg.data.staet = dt.staet;
+
+                        this.make('dt').data$(msg.data).save$(function (err, dt) {
                             respond(null, {success: true, msg: "", data: dt})
                         })
                     }
