@@ -29,11 +29,11 @@ module.exports = function dt(options){
         this.make('dt').load$(msg.id, function (err, dt) {
             if(dt.state == "created"){
                 this.make('dt').remove$(dt.id, function (err, dt) {
-                    respond(null, {success: true, msg: "", data:[dt]})
+                    respond(null, {success: true, msg: "", data: dt})
                 })
             }
             else{
-                respond(null, {success: false, msg: "Suppresion impossible, la demande de travaux est terminée.", data:[dt]})
+                respond(null, {success: false, msg: "Suppresion impossible, la demande de travaux est terminée.", data: dt})
             }
         })
     });
@@ -50,7 +50,7 @@ module.exports = function dt(options){
                     })
                 }
                 else{
-                    respond(null, {success: false, msg: "work request is already closed", data:[dt]})
+                    respond(null, {success: false, msg: "work request is already closed", data: dt})
                 }
             })
         }

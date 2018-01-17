@@ -27,9 +27,9 @@ module.exports = function api(options) {
             }
         }, respond);
 
-        this.act('role:stats', {
+        /*this.act('role:stats', {
             cmd: "add"
-        })
+        })*/
     });
     
     this.add('role:api,cmd:remove', function(msg, respond) {
@@ -53,15 +53,15 @@ module.exports = function api(options) {
         }, respond)
 
         // Envoi asynchrone au module stats pour incrementer le compteur
-        if (data.state && data.state === "closed") {
+        /*if (data.state && data.state === "closed") {
 
             this.act('role:stats', {
                 cmd: "update"
             });
-        }
+        }*/
     });
 
-    this.add('role:api,cmd:statsAll', function(msg, respond) {
+    /*this.add('role:api,cmd:statsAll', function(msg, respond) {
         this.act('role:stats', {
             cmd: "statsAll"
         }, respond)
@@ -72,7 +72,7 @@ module.exports = function api(options) {
             cmd: "statsUser",
             user: msg.args.params.user
         }, respond)
-    });
+    });*/
 
     this.add('init:api', function(msg, respond) {
         this.act('role:web', {
