@@ -76,14 +76,15 @@ module.exports = function api(options) {
 
     // traite les messages concernant les operations CRUD pour les DT
     this.add('role:api,path:dt', function (msg, respond) {
-        let data = msg.args.body;
-        let params = msg.args.params; // accès aux données passées via l'URL
+        var data = msg.args.body;
+        var params = msg.args.params; // accès aux données passées via l'URL
         this.act('role:dt', {
             cmd: msg.request$.method, // HTTP method
             data: {
                 applicant: data.applicant,
                 work: data.work,
-                id: params.dt_id
+                state: data.state,
+                id: params.id
             }
         }, respond)
     });
@@ -132,7 +133,7 @@ module.exports = function api(options) {
                             POST: true,
                             PUT: true,
                             DELETE: true,
-                            suffix: '/:dt_id?'
+                            suffix: '/:id?'
                         }
                     }
                 }
