@@ -166,13 +166,13 @@ describe('app work request', () => {
   })
 
   // drop all work requests
-  it('delete all wr', (done) => {
+  /*it('delete all wr', (done) => {
     client.del('/api/dt', (err, req, res, result) => {
       if (err) return done(err);
       expect(result.success).to.be.true();
       done()
     })
-  })
+  })*/
 
   it('get global stats after reset', (done) => {
     client.get('/api/dt/stats', (err, req, res, result) => {

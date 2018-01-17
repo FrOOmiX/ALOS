@@ -13,7 +13,7 @@ module.exports = function dt(options){
     this.add('role:dt, cmd:load', function load(msg, respond) {
         this.make('dt').load$(msg.id, function (err, dt) {
             if(dt != null)
-                respond(null, {success: true, msg: "", data:[dt]})
+                respond(null, {success: true, msg: "", data:dt})
             else
                 respond(null, {success: false, msg: "Cette demande de travaux n'existe pas", data:[]})
         })
@@ -21,7 +21,7 @@ module.exports = function dt(options){
 
     this.add('role:dt, cmd:create', function create(msg, respond) {
         this.make('dt').data$(msg.data).save$(function (err, dt) {
-            respond(null, {success: true, msg: "", data:{id: dt.id}})
+            respond(null, {success: true, msg: "", data:{id: dt.id, applicant: msg.data.applicant, work: msg.data.work, state: msg.data.state}})
         })
     });
 
@@ -46,11 +46,11 @@ module.exports = function dt(options){
             this.make('dt').load$(msg.data.id, function (err, dt){
                 if(dt.state == "created"){
                     this.make('dt').data$(msg.data).save$(function (err, dt) {
-                        respond(null, {success: true, msg: "", data:[dt]})
+                        respond(null, {success: true, msg: "", data:dt})
                     })
                 }
                 else{
-                    respond(null, {success: false, msg: "Modification impossible, la demande de travaux est terminée.", data:[dt]})
+                    respond(null, {success: false, msg: "work request is already closed", data:[dt]})
                 }
             })
         }
