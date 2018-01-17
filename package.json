@@ -5,8 +5,12 @@
   "main": "math.js",
   "dependencies": {
     "body-parser": "^1.13.2",
+    "code": "^5.1.2",
     "express": "^4.13.1",
+    "lab": "^15.2.0",
     "nodemon": "^1.10.2",
+    "restify": "^6.3.4",
+    "restify-clients": "^1.5.2",
     "seneca": "2.0.0",
     "seneca-entity": "0.0.1",
     "seneca-web": "^2.2.0",

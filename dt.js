@@ -21,14 +21,13 @@ module.exports = function dt(options){
 
     this.add('role:dt, cmd:create', function create(msg, respond) {
         this.make('dt').data$(msg.data).save$(function (err, dt) {
-                respond(null, {succes: true, msg: "", data:[{id: dt.id}]})
+            respond(null, {succes: true, msg: "", data:[{id: dt.id}]})
         })
-
     });
 
     this.add('role:dt, cmd:remove', function remove(msg, respond) {
         this.make('dt').load$(msg.id, function (err, dt) {
-            if(dt.state == "En cours"){
+            if(dt.state == "created"){
                 this.make('dt').remove$(dt.id, function (err, dt) {
                     respond(null, {succes: true, msg: "", data:[dt]})
                 })
@@ -41,7 +40,7 @@ module.exports = function dt(options){
 
     this.add('role:dt, cmd:update', function update(msg, respond) {
         this.make('dt').load$(msg.data.id, function (err, dt){
-            if(dt.state == "En cours"){
+            if(dt.state == "created"){
                 this.make('dt').data$(msg.data).save$(function (err, dt) {
                     respond(null, {succes: true, msg: "", data:[dt]})
                 })
@@ -50,6 +49,5 @@ module.exports = function dt(options){
                 respond(null, {succes: false, msg: "Modification impossible, la demande de travaux est terminée.", data:[dt]})
             }
         })
-
     })
 };

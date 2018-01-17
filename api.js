@@ -23,9 +23,13 @@ module.exports = function api(options) {
                 applicant:  msg.args.body.applicant,
                 work:  msg.args.body.work,
                 date:  msg.args.body.date,
-                state: "En cours"
+                state: "created"
             }
-        }, respond)
+        }, respond);
+
+        this.act('role:stats', {
+            cmd: "add"
+        })
     });
     
     this.add('role:api,cmd:remove', function(msg, respond) {
@@ -44,8 +48,17 @@ module.exports = function api(options) {
 
         this.act('role:dt', {
             cmd: "update",
+            id: msg.args.params.id,
             data: data
         }, respond)
+
+        // Envoi asynchrone au module stats pour incrementer le compteur
+        if (data.state && data.state === "closed") {
+
+            this.act('role:stats', {
+                cmd: "update"
+            });
+        }
     });
 
     this.add('role:api,cmd:statsAll', function(msg, respond) {
@@ -81,8 +94,8 @@ module.exports = function api(options) {
                         list: { GET: true, name: '' },
                         load: { GET: true, name: '', suffix: '/:id' },
                         create: { POST: true, name: '' },
-                        remove: { DELETE: true, name: '', suffix: '/:id' },
-                        update: { PUT: true, name: '', suffix: '/:id' }
+                        remove: { DELETE: true, name: '', suffix: '/:id?' },
+                        update: { PUT: true, name: '', suffix: '/:id?' }
                     }
                 }
             ]
