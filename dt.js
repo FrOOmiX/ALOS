@@ -59,6 +59,7 @@ module.exports = function dt(options){
                         if (msg.data.applicant == null) msg.data.applicant = dt.applicant;
                         if (msg.data.work == null) msg.data.work = dt.work;
                         if (msg.data.state == null) msg.data.state = dt.state;
+                        if (msg.data.date == null) msg.data.date = dt.date;
 
                         this.make('dt').data$(msg.data).save$(function (err, dt) {
                             respond(null, {success: true, msg: "", data: dt})
