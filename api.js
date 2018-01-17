@@ -61,31 +61,31 @@ module.exports = function api(options) {
         }*/
     });
 
-    /*this.add('role:api,cmd:statsAll', function(msg, respond) {
+    this.add('role:api,info:statsAll', function(msg, respond) {
         this.act('role:stats', {
-            cmd: "statsAll"
+            info: "statsAll"
         }, respond)
     });
 
-    this.add('role:api,cmd:statsUser', function(msg, respond) {
+    this.add('role:api,info:statsUser', function(msg, respond) {
         this.act('role:stats', {
-            cmd: "statsUser",
+            info: "statsUser",
             user: msg.args.params.user
         }, respond)
-    });*/
+    });
 
     this.add('init:api', function(msg, respond) {
         this.act('role:web', {
             routes: [
-                {
-                    prefix: '/api/dt/stats',
-                    pin: 'role:api,cmd:*',
+                /*{
+                    prefix: '/api/stats',
+                    pin: 'role:api,info:*',
                     map: {
     
                         statsAll: { GET: true, name: '' },
                         statsUser: { GET: true, name: '', suffix: '/:user' }
                     }
-                },
+                },*/
                 {
                     prefix: '/api/dt',
                     pin: 'role:api,cmd:*',
