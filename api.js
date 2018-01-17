@@ -84,6 +84,7 @@ module.exports = function api(options) {
                 applicant: data.applicant,
                 work: data.work,
                 state: data.state,
+                date: data.date,
                 id: params.id
             }
         }, respond)
