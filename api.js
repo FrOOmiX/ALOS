@@ -1,7 +1,7 @@
 module.exports = function api(options) {
     
     // localhost:3000/api/dt
-    this.add('role:api,cmd:list', function(msg, respond) {
+    /*this.add('role:api,cmd:list', function(msg, respond) {
         this.act('role:dt', {
             cmd: "list"
         }, respond)
@@ -27,9 +27,9 @@ module.exports = function api(options) {
             }
         }, respond);
 
-        /*this.act('role:stats', {
+        this.act('role:stats', {
             cmd: "add"
-        })*/
+        })
     });
     
     this.add('role:api,cmd:remove', function(msg, respond) {
@@ -53,12 +53,12 @@ module.exports = function api(options) {
         }, respond)
 
         // Envoi asynchrone au module stats pour incrementer le compteur
-        /*if (data.state && data.state === "closed") {
+        if (data.state && data.state === "closed") {
 
             this.act('role:stats', {
                 cmd: "update"
             });
-        }*/
+        }
     });
 
     this.add('role:api,info:statsAll', function(msg, respond) {
@@ -72,20 +72,34 @@ module.exports = function api(options) {
             info: "statsUser",
             user: msg.args.params.user
         }, respond)
+    });*/
+
+    // traite les messages concernant les operations CRUD pour les DT
+    this.add('role:api,path:dt', function (msg, respond) {
+        let data = msg.args.body;
+        let params = msg.args.params; // accès aux données passées via l'URL
+        this.act('role:dt', {
+            cmd: msg.request$.method, // HTTP method
+            data: {
+                applicant: data.applicant,
+                work: data.work,
+                id: params.dt_id
+            }
+        }, respond)
     });
 
     this.add('init:api', function(msg, respond) {
         this.act('role:web', {
             routes: [
                 /*{
-                    prefix: '/api/stats',
+                    prefix: '/api/dt/stats',
                     pin: 'role:api,info:*',
                     map: {
     
                         statsAll: { GET: true, name: '' },
                         statsUser: { GET: true, name: '', suffix: '/:user' }
                     }
-                },*/
+                },
                 {
                     prefix: '/api/dt',
                     pin: 'role:api,cmd:*',
@@ -96,6 +110,30 @@ module.exports = function api(options) {
                         create: { POST: true, name: '' },
                         remove: { DELETE: true, name: '', suffix: '/:id?' },
                         update: { PUT: true, name: '', suffix: '/:id?' }
+                    }
+                }*/
+
+                {
+                    prefix: '/api/dt',
+                    pin: 'role:api,path:stats',
+                    map: {
+                        stats: {
+                            GET: true,
+                            suffix: '/:user?'
+                        }
+                    }
+                },
+                {
+                    prefix: '/api',
+                    pin: 'role:api,path:dt',
+                    map: {
+                        dt: {
+                            GET: true,
+                            POST: true,
+                            PUT: true,
+                            DELETE: true,
+                            suffix: '/:dt_id?'
+                        }
                     }
                 }
             ]
