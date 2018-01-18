@@ -35,27 +35,47 @@ module.exports = function dt(options){
     });
 
     this.add('role:dt, cmd:DELETE', function(msg, respond) {
-        this.make('dt').load$(msg.data.id, function (err, dt) {
-            if (dt == null) {
-                respond(null, {success: false, msg: "wr id not found", data: {}})
-            }else{
-                if(dt.state == "created"){
+        if (msg.data.id != undefined){
+            this.make('dt').load$(msg.data.id, function (err, dt) {
+                if (dt == null) {
+                    respond(null, {success: false, msg: "wr id not found", data: {}})
+                }else{
+                    if(dt.state == "created"){
 
-                    this.act('role:stats', {
+                        this.act('role:stats', {
+                            cmd: "delete",
+                            applicant: dt.applicant
+                        })
+
+                        this.make('dt').remove$(dt.id, function (err, dt) {
+                            respond(null, {success: true, msg: "", data: msg.data})
+                        })
+                    }
+                    else{
+                        respond(null, {success: false, msg: "wr is already closed", data: {}})
+                    }
+                }
+
+            })
+        }else{
+            console.log("console");
+            this.make('dt').list$({state:'created'}, function (err, res) {
+                //that = this parce que dans le foreach le this fait reference a res
+                var that = this;
+
+                res.forEach(function (dt) {
+                    that.act('role:stats', {
                         cmd: "delete",
                         applicant: dt.applicant
                     })
-
-                    this.make('dt').remove$(dt.id, function (err, dt) {
-                        respond(null, {success: true, msg: "", data: msg.data})
+                    dt.remove$(function (err, dt) {
+                        respond(null, {success: true, msg: "", data: {}})
                     })
-                }
-                else{
-                    respond(null, {success: false, msg: "wr is already closed", data: {}})
-                }
-            }
+                })
 
-        })
+            })
+        }
+
     });
 
     this.add('role:dt, cmd:PUT', function(msg, respond) {
