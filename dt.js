@@ -37,7 +37,7 @@ module.exports = function dt(options){
                 id: dt.id
             });
 
-            respond(null, {success: true, msg: "", data:{id: dt.id, applicant: msg.data.applicant, work: msg.data.work, state: msg.data.state}});
+            respond(null, {success: true, msg: "", data:{id: dt.id, applicant: dt.applicant, work: dt.work, state: dt.state, date: dt.date}});
         })
     });
 
