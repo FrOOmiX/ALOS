@@ -7,6 +7,13 @@ module.exports = function api(options) {
         }, respond)
     });
 
+    this.add('role:api,path:search', function(msg, respond) {
+        this.act('role:indexation', {
+            cmd: msg.request$.method,
+            work: msg.args.params.work
+        }, respond)
+    });
+
     this.add('role:api,path:dt', function (msg, respond) {
 
         var data = msg.args.body;
@@ -34,6 +41,16 @@ module.exports = function api(options) {
                         stats: {
                             GET: true,
                             suffix: '/:user?'
+                        }
+                    }
+                },
+                {
+                    prefix: '/api/dt',
+                    pin: 'role:api,path:search',
+                    map: {
+                        search: {
+                            GET: true,
+                            suffix: '/:work'
                         }
                     }
                 },

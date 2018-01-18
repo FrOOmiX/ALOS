@@ -18,7 +18,6 @@ module.exports = function dt(options){
                 respond(null, {success: true, msg: "", data:data})
             })
         }
-
     });
 
     this.add('role:dt, cmd:POST', function(msg, respond) {
@@ -31,7 +30,14 @@ module.exports = function dt(options){
         })
 
         this.make('dt').data$(msg.data).save$(function (err, dt) {
-            respond(null, {success: true, msg: "", data:{id: dt.id, applicant: dt.applicant, work: dt.work, state: dt.state, date: dt.date}})
+
+            this.act('role:indexation', {
+                cmd: "index",
+                work: dt.work,
+                id: dt.id
+            });
+
+            respond(null, {success: true, msg: "", data:{id: dt.id, applicant: msg.data.applicant, work: msg.data.work, state: msg.data.state}});
         })
     });
 
@@ -88,11 +94,24 @@ module.exports = function dt(options){
                 } else {
                     if (dt.state == "created") {
 
+                        // Update de l'indexation si champ work fourni
+                        /*
+                        if (msg.data.work != null) {
+
+                            this.act('role:indexation', {
+                                cmd: "update",
+                                newWork: msg.data.work,
+                                oldWork: dt.work,
+                                id: dt.id
+                            });
+                        }*/
+
                         if (msg.data.applicant == null) msg.data.applicant = dt.applicant;
                         if (msg.data.work == null) msg.data.work = dt.work;
                         if (msg.data.state == null) msg.data.state = dt.state;
                         if (msg.data.date == null) msg.data.date = dt.date;
 
+                        // Update des stats si le statut change
                         if (msg.data.state === "closed") {
 
                             this.act('role:stats', {
@@ -111,6 +130,5 @@ module.exports = function dt(options){
                 }
             })
         }
-
     })
 };
