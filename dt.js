@@ -21,10 +21,12 @@ module.exports = function dt(options){
     });
 
     this.add('role:dt, cmd:POST', function(msg, respond) {
+
         msg.data.state = "created";
 
         this.act('role:stats', {
-            cmd: "add"
+            cmd: "add",
+            applicant: msg.data.applicant
         })
 
         this.make('dt').data$(msg.data).save$(function (err, dt) {
@@ -40,7 +42,8 @@ module.exports = function dt(options){
                 if(dt.state == "created"){
 
                     this.act('role:stats', {
-                        cmd: "delete"
+                        cmd: "delete",
+                        applicant: dt.applicant
                     })
 
                     this.make('dt').remove$(dt.id, function (err, dt) {
@@ -63,7 +66,7 @@ module.exports = function dt(options){
             this.make('dt').load$(msg.data.id, function (err, dt){
                 if (dt == null) {
                     respond(null, {success: false, msg: "wr id not found", data: {}})
-                }else {
+                } else {
                     if (dt.state == "created") {
 
                         if (msg.data.applicant == null) msg.data.applicant = dt.applicant;
@@ -74,7 +77,8 @@ module.exports = function dt(options){
                         if (msg.data.state === "closed") {
 
                             this.act('role:stats', {
-                                cmd: "update"
+                                cmd: "update",
+                                applicant: msg.data.applicant
                             })
                         }
 
