@@ -58,7 +58,6 @@ module.exports = function dt(options){
 
             })
         }else{
-            console.log("console");
             this.make('dt').list$({state:'created'}, function (err, res) {
                 //that = this parce que dans le foreach le this fait reference a res
                 var that = this;
