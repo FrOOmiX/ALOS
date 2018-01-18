@@ -19,14 +19,14 @@ module.exports = function stats(options) {
         // Compteur par applicant
         if (cptByUser.hasOwnProperty(applicant)) {
             
-            cptByUser[applicant].global_stats_wr_created += 1;
-            cptByUser[applicant].global_stats_wr_opened += 1;
+            cptByUser[applicant].stats_wr_created += 1;
+            cptByUser[applicant].stats_wr_opened += 1;
         } else {
 
             cptByUser[applicant] = {}
-            cptByUser[applicant].global_stats_wr_created = 1;
-            cptByUser[applicant].global_stats_wr_opened = 1;
-            cptByUser[applicant].global_stats_wr_closed = 0;
+            cptByUser[applicant].stats_wr_created = 1;
+            cptByUser[applicant].stats_wr_opened = 1;
+            cptByUser[applicant].stats_wr_closed = 0;
         }
 
         respond(null, { success: true, msg: "", data: [] });
@@ -41,8 +41,8 @@ module.exports = function stats(options) {
         compteur.global_stats_wr_closed += 1;
 
         // Compteur par applicant
-        cptByUser[applicant].global_stats_wr_opened -= 1;
-        cptByUser[applicant].global_stats_wr_closed += 1;
+        cptByUser[applicant].stats_wr_opened -= 1;
+        cptByUser[applicant].stats_wr_closed += 1;
 
         respond(null, { success: true, msg: "", data: [] });
     });
@@ -56,8 +56,8 @@ module.exports = function stats(options) {
         compteur.global_stats_wr_created -= 1;
 
         // Compteur par applicant
-        cptByUser[applicant].global_stats_wr_opened -= 1;
-        cptByUser[applicant].global_stats_wr_created -= 1;
+        cptByUser[applicant].stats_wr_opened -= 1;
+        cptByUser[applicant].stats_wr_created -= 1;
 
         respond(null, { success: true, msg: "", data: [] });
     });
