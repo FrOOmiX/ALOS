@@ -64,8 +64,8 @@ module.exports = function stats(options) {
 
     this.add('role:stats, cmd:GET', function (msg, respond) {
         
-        if (msg.user === undefined)                  respond(null, { succes: true, msg: "", data: compteur });
-        else if (cptByUser.hasOwnProperty(msg.user)) respond(null, { succes: true, msg: "", data: cptByUser[msg.user] });
-        else                                         respond(null, { succes: false, msg: "applicant not found", data: {} });
+        if (msg.user === undefined)                  respond(null, { success: true, msg: "", data: compteur });
+        else if (cptByUser.hasOwnProperty(msg.user)) respond(null, { success: true, msg: "", data: cptByUser[msg.user] });
+        else                                         respond(null, { success: false, msg: "applicant not found", data: {} });
     });
 };
