@@ -12,7 +12,8 @@ module.exports = function dt(options){
             this.make('dt').list$({},function (err, list) {
                 var data = [];
                 list.forEach(function (dt) {
-                    data.push(dt)
+                    data.push({applicant : dt.applicant, work : dt.work, date: dt.date, id: dt.id})
+                    //data.push(dt)
                 });
                 respond(null, {success: true, msg: "", data:data})
             })
@@ -30,7 +31,7 @@ module.exports = function dt(options){
         })
 
         this.make('dt').data$(msg.data).save$(function (err, dt) {
-            respond(null, {success: true, msg: "", data:{id: dt.id, applicant: msg.data.applicant, work: msg.data.work, state: msg.data.state}})
+            respond(null, {success: true, msg: "", data:{id: dt.id, applicant: dt.applicant, work: dt.work, state: dt.state, date: dt.date}})
         })
     });
 
@@ -52,7 +53,7 @@ module.exports = function dt(options){
                         })
                     }
                     else{
-                        respond(null, {success: false, msg: "wr is already closed", data: {}})
+                        respond(null, {success: false, msg: "wr is already closed", data: dt})
                     }
                 }
 
@@ -68,10 +69,9 @@ module.exports = function dt(options){
                         applicant: dt.applicant
                     })
                     dt.remove$(function (err, dt) {
-                        respond(null, {success: true, msg: "", data: {}})
                     })
                 })
-
+                respond(null, {success: true, msg: "", data: {}})
             })
         }
 
