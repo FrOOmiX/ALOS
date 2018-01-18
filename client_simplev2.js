@@ -264,10 +264,16 @@ masync.series([
             assert.equal(result.success,true,'Echec get global stats (3)')
             console.log('get global stats %j', result);
             assert.equal(result.data.global_stats_wr_created,1);
-            assert.equal(result.data.global_stats_wr_opened,9);
+            assert.equal(result.data.global_stats_wr_opened,0);
             assert.equal(result.data.global_stats_wr_closed,1);
             callback(null, 'eighteen');
         })
     },
+    
+    function (callback) {
+        console.log('\x1b[32m',"All tests completed",'\x1b[0m');
+        callback(null, "end");
+    }
 ]);
+
 
