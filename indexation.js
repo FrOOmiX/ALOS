@@ -38,7 +38,7 @@ module.exports = function indexation(options) {
         var idIndexation = dico[msg.id];
 
         // Suppression de la DT indexee
-        search.remove(0);
+        search.remove(idIndexation);
 
         // Re-indexation la DT supprimee avec le nouveau champ work
         var idIndex = search.add({ id: msg.id, work: msg.work }, function (key, val) {
@@ -57,6 +57,9 @@ module.exports = function indexation(options) {
         respond(null, { success: true, msg: "", data: [] });
     });
 
+    /** Permet de faire une recherche par le work
+     *  et de renvoyer les ID de la/les DT correspondante(s)
+     */
     this.add('role:indexation, cmd:GET', function (msg, respond) {
 
         if (msg.work != undefined) {
@@ -64,6 +67,7 @@ module.exports = function indexation(options) {
             var res  = search.search(msg.work),
                 data = [];
 
+            // Permet de recuperer que les ID
             res.forEach(function(el) {
 
                 data.push({ id: el.id });
@@ -73,6 +77,9 @@ module.exports = function indexation(options) {
             else                  respond(null, { success: true, msg: "", data: data });
         } else {
 
+            /** Ceci n'est jamais affiché car la route
+             *  est confondue avec celle des stats sans parametres...
+             */
             respond(null, { success: false, msg: "Pas de description fournie", data: [] });
         }
     });
