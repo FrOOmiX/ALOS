@@ -95,16 +95,14 @@ module.exports = function dt(options){
                     if (dt.state == "created") {
 
                         // Update de l'indexation si champ work fourni
-                        /*
                         if (msg.data.work != null) {
 
                             this.act('role:indexation', {
                                 cmd: "update",
-                                newWork: msg.data.work,
-                                oldWork: dt.work,
+                                work: msg.data.work,
                                 id: dt.id
                             });
-                        }*/
+                        }
 
                         if (msg.data.applicant == null) msg.data.applicant = dt.applicant;
                         if (msg.data.work == null) msg.data.work = dt.work;

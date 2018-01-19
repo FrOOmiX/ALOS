@@ -7,7 +7,12 @@ module.exports = function stats(options) {
             global_stats_wr_closed: 0
         },
         cptByUser = {};
-
+    
+    /** Incremente les compteurs globaux et ceux
+     *  par applicant lors de l'ajout d'une DT
+     *  Les compteurs par applicant sont geres en ajoutant
+     *  le nom comme clef de l'objet cptByUser
+     */
     this.add('role:stats, cmd:add', function (msg, respond) {
 
         // Compteur global
@@ -29,9 +34,13 @@ module.exports = function stats(options) {
             cptByUser[applicant].stats_wr_closed = 0;
         }
 
+        // Evite d'avoir une erreur de timeout dans la console
         respond(null, { success: true, msg: "", data: [] });
     });
 
+    /** Met a jour les compteurs globaux et
+     *  par applicant lors de la fermeture de DT
+     */
     this.add('role:stats, cmd:update', function (msg, respond) {
 
         var applicant = msg.applicant;
@@ -44,9 +53,13 @@ module.exports = function stats(options) {
         cptByUser[applicant].stats_wr_opened -= 1;
         cptByUser[applicant].stats_wr_closed += 1;
 
+        // Evite d'avoir une erreur de timeout dans la console
         respond(null, { success: true, msg: "", data: [] });
     });
 
+    /** Met a jour les compteurs globaux et
+     *  par applicant lors de la suppression de DT
+     */
     this.add('role:stats, cmd:delete', function (msg, respond) {
 
         var applicant = msg.applicant;
@@ -59,9 +72,14 @@ module.exports = function stats(options) {
         cptByUser[applicant].stats_wr_opened -= 1;
         cptByUser[applicant].stats_wr_created -= 1;
 
+        // Evite d'avoir une erreur de timeout dans la console
         respond(null, { success: true, msg: "", data: [] });
     });
 
+    /** Affiche les stats globales si aucun
+     *  user n'est specifie, sinon les stats
+     *  de ce user
+     */
     this.add('role:stats, cmd:GET', function (msg, respond) {
         
         if (msg.user === undefined)                  respond(null, { success: true, msg: "", data: compteur });
