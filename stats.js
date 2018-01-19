@@ -4,7 +4,8 @@ module.exports = function stats(options) {
 
             global_stats_wr_created: 0,
             global_stats_wr_opened: 0,
-            global_stats_wr_closed: 0
+            global_stats_wr_closed: 0,
+            global_stats_wr_deleted: 0
         },
         cptByUser = {};
     
@@ -32,6 +33,7 @@ module.exports = function stats(options) {
             cptByUser[applicant].stats_wr_created = 1;
             cptByUser[applicant].stats_wr_opened = 1;
             cptByUser[applicant].stats_wr_closed = 0;
+            cptByUser[applicant].stats_wr_deleted = 0;
         }
 
         // Evite d'avoir une erreur de timeout dans la console
@@ -66,11 +68,11 @@ module.exports = function stats(options) {
 
         // Compteur global
         compteur.global_stats_wr_opened -= 1;
-        compteur.global_stats_wr_created -= 1;
+        compteur.global_stats_wr_deleted += 1;
 
         // Compteur par applicant
         cptByUser[applicant].stats_wr_opened -= 1;
-        cptByUser[applicant].stats_wr_created -= 1;
+        cptByUser[applicant].stats_wr_deleted += 1;
 
         // Evite d'avoir une erreur de timeout dans la console
         respond(null, { success: true, msg: "", data: [] });
