@@ -1,0 +1,5 @@
+require( 'seneca' )()
+    .use( 'entity' )
+    .use( 'stats' )
+    .listen({ type: 'tcp', port:9001, pin:'role:stats' })
+    .listen({ type: 'tcp', port:9003, pin:'role:stats' })
