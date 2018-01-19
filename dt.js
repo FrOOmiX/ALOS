@@ -4,7 +4,7 @@ module.exports = function dt(options){
         if (msg.data.id != undefined){
             this.make('dt').load$(msg.data.id, function (err, dt) {
                 if(dt != null)
-                    respond(null, {success: true, msg: "", data:dt})
+                    respond(null, {success: true, msg: "", data:{applicant : dt.applicant, work : dt.work, state: dt.state, id: dt.id}})
                 else
                     respond(null, {success: false, msg: "wr not found", data:{}})
             })
@@ -12,7 +12,7 @@ module.exports = function dt(options){
             this.make('dt').list$({},function (err, list) {
                 var data = [];
                 list.forEach(function (dt) {
-                    data.push({applicant : dt.applicant, work : dt.work, date: dt.date, id: dt.id})
+                    data.push({applicant : dt.applicant, work : dt.work, state: dt.state, id: dt.id})
                     //data.push(dt)
                 });
                 respond(null, {success: true, msg: "", data:data})
@@ -45,9 +45,12 @@ module.exports = function dt(options){
         if (msg.data.id != undefined){
             this.make('dt').load$(msg.data.id, function (err, dt) {
                 if (dt == null) {
-                    respond(null, {success: false, msg: "wr id not found", data: {}})
+                    respond(null, {success: false, msg: "wr not found", data: {}})
                 }else{
                     if(dt.state == "created"){
+                        //temp permet de stocker la DT a supprimer afin de la renvoyer
+                        var temp = dt;
+                        delete temp.entity$;
 
                         this.act('role:stats', {
                             cmd: "delete",
@@ -55,7 +58,7 @@ module.exports = function dt(options){
                         })
 
                         this.make('dt').remove$(dt.id, function (err, dt) {
-                            respond(null, {success: true, msg: "", data: msg.data})
+                            respond(null, {success: true, msg: "", data: temp})
                         })
                     }
                     else{
@@ -90,7 +93,7 @@ module.exports = function dt(options){
         else{
             this.make('dt').load$(msg.data.id, function (err, dt){
                 if (dt == null) {
-                    respond(null, {success: false, msg: "wr id not found", data: {}})
+                    respond(null, {success: false, msg: "wr not found", data: {}})
                 } else {
                     if (dt.state == "created") {
 
@@ -119,7 +122,7 @@ module.exports = function dt(options){
                         }
 
                         this.make('dt').data$(msg.data).save$(function (err, dt) {
-                            respond(null, {success: true, msg: "", data: dt})
+                            respond(null, {success: true, msg: "", data: {applicant : dt.applicant, work : dt.work, state: dt.state, id: dt.id}})
                         })
                     }
                     else {
