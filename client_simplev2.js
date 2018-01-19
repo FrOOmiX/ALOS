@@ -252,7 +252,7 @@ masync.series([
         client.del('/api/dt', function(err, req, res, result) {
             assert.ifError(err);
             assert.equal(result.success,true,'Echec del (without id)')
-            console.log('del seventeen opened WR %j', result);
+            console.log('del all WR opened WR %j', result);
             callback(null, 'fifeteen');
         })
     },
