@@ -38,6 +38,16 @@ var pierreWRwithID = {
     date : "10-10-2018"
 };
 
+var henriWR = {
+    applicant: "henry",
+    work: "Hard disk installation"
+};
+
+var jacquesWR = {
+    applicant: "jacques",
+    work: "PC installation"
+};
+
 function DTEquals(p1, p2) {
     for (var n in p1) {
         assert.equal(p1[n], p2[n]);
@@ -82,7 +92,7 @@ masync.series([
             assert.equal(result.success,true,'Echec get')
             console.log('get Paul %j', result);
             DTEquals(paulWR, result.data);
-            callback(null, 'two');
+            callback(null, 'three');
         })
     },
 
@@ -95,7 +105,7 @@ masync.series([
             assert.equal(result.success,true,'Echec put (work)')
             console.log('put Paul %j', result);
             DTEquals(updDT, result.data);
-            callback(null, 'three');
+            callback(null, 'four');
         })
     },
 
@@ -108,7 +118,7 @@ masync.series([
             assert.equal(result.success,true,'Echec put (state)')
             console.log('put Paul %j', result);
             assert.equal(result.data.state,'closed')
-            callback(null, 'four');
+            callback(null, 'five');
         })
     },
 
@@ -121,7 +131,7 @@ masync.series([
             assert.equal(result.success,false,'Echec put (work2)')
             console.log('put Paul %j', result);
             assert.equal(result.msg,'wr is already closed')
-            callback(null, 'five');
+            callback(null, 'six');
         })
     },
 
@@ -135,7 +145,7 @@ masync.series([
             DTEquals(pierreWR, result.data);
             updDT.id = dt_id;
             pierreWRwithID.id = pierre_id;
-            callback(null, 'six');
+            callback(null, 'seven');
         })
     },
 
@@ -146,7 +156,7 @@ masync.series([
             assert.equal(result.success,true,'Echec get')
             console.log('get all WR %j', result);
             expect(result.data).to.include([updDT, pierreWRwithID])
-            callback(null, 'seven');
+            callback(null, 'eight');
         })
     },
 
@@ -157,7 +167,7 @@ masync.series([
             assert.equal(result.success,true,'Echec del')
             console.log('del DT %j', result);
             assert.equal(result.data.id,pierre_id)
-            callback(null, 'eight');
+            callback(null, 'nine');
         })
     },
 
@@ -168,7 +178,7 @@ masync.series([
             assert.equal(result.success,false,'Echec del (closed)')
             console.log('del DT already closed %j', result);
             assert.equal(result.msg,'wr is already closed')
-            callback(null, 'nine');
+            callback(null, 'ten');
         })
     },
 
@@ -181,7 +191,7 @@ masync.series([
             assert.equal(result.success,false,'Echec put (false id)')
             console.log('put wr false id %j', result);
             assert.equal(result.msg,'wr id not found')
-            callback(null, 'ten');
+            callback(null, 'eleven');
         })
     },
 
@@ -192,7 +202,7 @@ masync.series([
             assert.equal(result.success,false,'Echec put (no id)')
             console.log('put wr without id %j', result);
             assert.equal(result.msg,'wr id not provided')
-            callback(null, 'eleven');
+            callback(null, 'twelve');
         })
     },
 
@@ -203,7 +213,7 @@ masync.series([
             assert.equal(result.success,false,'Echec del (false id)')
             console.log('del DT with false id %j', result);
             assert.equal(result.msg,'wr id not found')
-            callback(null, 'twelve');
+            callback(null, 'thirteen');
         })
     },
 
@@ -216,7 +226,7 @@ masync.series([
             assert.equal(result.data.global_stats_wr_created,2);
             assert.equal(result.data.global_stats_wr_opened,0);
             assert.equal(result.data.global_stats_wr_closed,1);
-            callback(null, 'thirteen');
+            callback(null, 'fourteen');
         })
     },
 
@@ -229,42 +239,39 @@ masync.series([
             assert.equal(result.data.stats_wr_created,1);
             assert.equal(result.data.stats_wr_opened,0);
             assert.equal(result.data.stats_wr_closed,1);
-            callback(null, 'fourteen');
-        })
-    },
-
-    // recreation de la DT pierre avant la suppression de toutes les DT ouvertes (3eme DT)
-    function(callback) {
-        client.post('/api/dt', pierreWR, function(err, req, res, result) {
-            assert.ifError(err);
-            console.log('post Pierre again before removing all created WR%j', result);
-            assert.equal(result.success,true,'Echec post')
-            DTEquals(pierreWR, result.data);
             callback(null, 'fifteen');
         })
     },
 
-    // obtention des stats globales apres recreation de la DT depierre
+    // Create de la DT henri
     function(callback) {
-        client.get('/api/dt/stats', function(err, req, res, result) {
+        client.post('/api/dt', henriWR, function(err, req, res, result) {
             assert.ifError(err);
-            assert.equal(result.success,true,'Echec get global stats (2)')
-            console.log('get global stats %j', result);
-            assert.equal(result.data.global_stats_wr_created,3);
-            assert.equal(result.data.global_stats_wr_opened,1);
-            assert.equal(result.data.global_stats_wr_closed,1);
+            console.log('post henri %j', result);
+            assert.equal(result.success,true,'Echec post')
+            DTEquals(henriWR, result.data);
             callback(null, 'sixteen');
         })
     },
 
+    // Create de la DT jacques
+    function(callback) {
+        client.post('/api/dt', jacquesWR, function(err, req, res, result) {
+            assert.ifError(err);
+            console.log('post jacques %j', result);
+            assert.equal(result.success,true,'Echec post')
+            DTEquals(jacquesWR, result.data);
+            callback(null, 'seventeen');
+        })
+    },
 
-    // suppression d'une DT sans id
+    // suppression de toutes les DT
     function(callback) {
         client.del('/api/dt', function(err, req, res, result) {
             assert.ifError(err);
             assert.equal(result.success,true,'Echec del (without id)')
             console.log('del all WR opened WR %j', result);
-            callback(null, 'fifeteen');
+            callback(null, 'eighteen');
         })
     },
 
@@ -274,10 +281,20 @@ masync.series([
             assert.ifError(err);
             assert.equal(result.success,true,'Echec get global stats (3)')
             console.log('get global stats %j', result);
-            assert.equal(result.data.global_stats_wr_created,3);
+            assert.equal(result.data.global_stats_wr_created,4);
             assert.equal(result.data.global_stats_wr_opened,0);
             assert.equal(result.data.global_stats_wr_closed,1);
-            callback(null, 'eighteen');
+            callback(null, 'nineteen');
+        })
+    },
+
+    // recherche d'une dt fausse indexee grace au contenu de son work
+    function(callback) {
+        client.get('/api/dt/search/'+ 'gr', function(err, req, res, result) {
+            assert.ifError(err);
+            assert.equal(result.success,false,'Echec get indexation')
+            console.log('get false WR indexed %j', result);
+            callback(null, 'twenty');
         })
     },
     
@@ -286,5 +303,3 @@ masync.series([
         callback(null, "end");
     }
 ]);
-
-
