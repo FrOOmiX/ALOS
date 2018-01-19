@@ -5,10 +5,10 @@
   "main": "math.js",
   "dependencies": {
     "body-parser": "^1.13.2",
-    "code": "^5.1.2",
+    "code": "4.0.0",
     "express": "^4.13.1",
     "full-text-search-light": "0.0.17",
-    "lab": "^15.2.0",
+    "lab": "12.1.0",
     "nodemon": "^1.10.2",
     "restify": "^6.3.4",
     "restify-clients": "^1.5.2",
