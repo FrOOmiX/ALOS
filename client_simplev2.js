@@ -64,6 +64,17 @@ masync.series([
         })
     },
 
+    // recherche d'une dt indexee grace au contenu de son work
+    function(callback) {
+        client.get('/api/dt/search/'+ 'upda', function(err, req, res, result) {
+            assert.ifError(err);
+            assert.equal(result.success,true,'Echec get indexation')
+            console.log('get WR indexed %j', result);
+            assert.equal(result.data[0].id,dt_id)
+            callback(null, 'two');
+        })
+    },
+
     // obtention d'une DT avec son identifiant
     function(callback) {
         client.get('/api/dt/'+ dt_id, function(err, req, res, result) {
@@ -202,7 +213,7 @@ masync.series([
             assert.ifError(err);
             assert.equal(result.success,true,'Echec get global stats (1)')
             console.log('get global stats %j', result);
-            assert.equal(result.data.global_stats_wr_created,1);
+            assert.equal(result.data.global_stats_wr_created,2);
             assert.equal(result.data.global_stats_wr_opened,0);
             assert.equal(result.data.global_stats_wr_closed,1);
             callback(null, 'thirteen');
@@ -222,7 +233,7 @@ masync.series([
         })
     },
 
-    // recreation de la DT pierre avant la suppression de toutes les DT ouvertes
+    // recreation de la DT pierre avant la suppression de toutes les DT ouvertes (3eme DT)
     function(callback) {
         client.post('/api/dt', pierreWR, function(err, req, res, result) {
             assert.ifError(err);
@@ -239,7 +250,7 @@ masync.series([
             assert.ifError(err);
             assert.equal(result.success,true,'Echec get global stats (2)')
             console.log('get global stats %j', result);
-            assert.equal(result.data.global_stats_wr_created,2);
+            assert.equal(result.data.global_stats_wr_created,3);
             assert.equal(result.data.global_stats_wr_opened,1);
             assert.equal(result.data.global_stats_wr_closed,1);
             callback(null, 'sixteen');
@@ -263,7 +274,7 @@ masync.series([
             assert.ifError(err);
             assert.equal(result.success,true,'Echec get global stats (3)')
             console.log('get global stats %j', result);
-            assert.equal(result.data.global_stats_wr_created,1);
+            assert.equal(result.data.global_stats_wr_created,3);
             assert.equal(result.data.global_stats_wr_opened,0);
             assert.equal(result.data.global_stats_wr_closed,1);
             callback(null, 'eighteen');
